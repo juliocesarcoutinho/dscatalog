@@ -21,4 +21,20 @@ public class Category {
     private Long id;
     @Column
     private String name;
+    
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+    private Instant createdAt;
+    
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+    private Instant updatedAt;
+    
+    @PrePersist
+    private void prePersist() {
+        this.createdAt = Instant.now();
+    }
+    
+    @PreUpdate
+    private void preUpdate() {
+        this.updatedAt = Instant.now();
+    }
 }

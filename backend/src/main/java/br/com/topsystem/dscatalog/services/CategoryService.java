@@ -3,11 +3,14 @@ package br.com.topsystem.dscatalog.services;
 import br.com.topsystem.dscatalog.dtos.CategoryDTO;
 import br.com.topsystem.dscatalog.entities.Category;
 import br.com.topsystem.dscatalog.repositories.CategoryRepository;
+import br.com.topsystem.dscatalog.services.exceptions.DatabaseException;
 import br.com.topsystem.dscatalog.services.exceptions.ResourceNotFoundExceptions;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
@@ -51,6 +54,17 @@ public class CategoryService {
             return new CategoryDTO(entity);
         } catch (EntityNotFoundException e) {
             throw new ResourceNotFoundExceptions("Id not found " + id);
+        }
+    }
+
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public void delete(Long id) {
+        try {
+            var entity = repository.findById(id).orElseThrow(() ->
+                    new ResourceNotFoundExceptions("Id not found " + id));
+            repository.delete(entity);
+        } catch (DataIntegrityViolationException e) {
+            throw new DatabaseException("Integrity violation");
         }
     }
 }
