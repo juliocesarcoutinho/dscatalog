@@ -4,6 +4,7 @@ import br.com.topsystem.dscatalog.dtos.CategoryDTO;
 import br.com.topsystem.dscatalog.entities.Category;
 import br.com.topsystem.dscatalog.repositories.CategoryRepository;
 import br.com.topsystem.dscatalog.services.exceptions.ResourceNotFoundExceptions;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -39,5 +40,17 @@ public class CategoryService {
         entity.setName(dto.getName());
         entity = repository.save(entity);
         return new CategoryDTO(entity);
+    }
+
+    @Transactional
+    public CategoryDTO update(Long id, CategoryDTO dto) {
+        try {
+            var entity = repository.getReferenceById(id);
+            entity.setName(dto.getName());
+            entity = repository.save(entity);
+            return new CategoryDTO(entity);
+        } catch (EntityNotFoundException e) {
+            throw new ResourceNotFoundExceptions("Id not found " + id);
+        }
     }
 }
