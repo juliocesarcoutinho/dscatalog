@@ -55,7 +55,6 @@ public class ProductService {
         try {
             var entity = repository.getReferenceById(id);
             copyDtoToEntity(dto, entity);
-//            entity.setName(dto.getName());
             entity = repository.save(entity);
             return new ProductDTO(entity);
         } catch (EntityNotFoundException e) {
