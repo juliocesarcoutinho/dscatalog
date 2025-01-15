@@ -29,14 +29,16 @@ public class CategoryService {
         Page<Category> list = repository.findAll(pageable);
         return list.map(CategoryDTO::new);
     }
-
+    
+    // find by id
     @Transactional(readOnly = true)
     public CategoryDTO findById(Long id) {
         Optional<Category> obj = repository.findById(id);
         Category entity = obj.orElseThrow(() -> new ResourceNotFoundExceptions("Entity not found"));
         return new CategoryDTO(entity);
     }
-
+    
+    // insert category
     @Transactional
     public CategoryDTO insert(CategoryDTO dto) {
         var entity = new Category();
@@ -44,7 +46,8 @@ public class CategoryService {
         entity = repository.save(entity);
         return new CategoryDTO(entity);
     }
-
+    
+    // update category
     @Transactional
     public CategoryDTO update(Long id, CategoryDTO dto) {
         try {
@@ -56,7 +59,8 @@ public class CategoryService {
             throw new ResourceNotFoundExceptions("Id not found " + id);
         }
     }
-
+    
+    // delete category
     @Transactional(propagation = Propagation.SUPPORTS)
     public void delete(Long id) {
         try {
