@@ -1,10 +1,7 @@
 package br.com.topsystem.dscatalog.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.Instant;
 import java.util.HashSet;
@@ -31,6 +28,7 @@ public class Category {
     private Instant updatedAt;
 
     @ManyToMany(mappedBy = "categories")
+    @Setter(AccessLevel.NONE)
     private Set<Product> products = new HashSet<>();
     
     @PrePersist
