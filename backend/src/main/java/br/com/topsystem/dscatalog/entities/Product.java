@@ -20,12 +20,16 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
     @Column
     private String name;
+    
     @Column(columnDefinition = "TEXT")
     private String description;
+    
     @Column(columnDefinition = "DECIMAL(10,2)")
     private Double price;
+    
     @Column(columnDefinition = "TEXT")
     private String imgUrl;
     

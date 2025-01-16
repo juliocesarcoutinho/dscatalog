@@ -1,12 +1,15 @@
 package br.com.topsystem.dscatalog.dtos;
 
 import br.com.topsystem.dscatalog.entities.Category;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 
 @Getter
 public class CategoryDTO {
     
     private Long id;
+    
+    @NotBlank(message = "O campo nome é obrigatório")
     private String name;
     
     public CategoryDTO() {}

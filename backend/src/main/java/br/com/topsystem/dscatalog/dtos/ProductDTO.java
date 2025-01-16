@@ -23,15 +23,21 @@ import java.util.Set;
 public class ProductDTO {
 
     private Long id;
-    @Size(min = 5, max = 50, message = "O nome deve ter entre 5 e 60 caracteres")
+    
+    @Size(min = 3, max = 50, message = "O nome deve ter entre 3 e 60 caracteres")
     @NotBlank(message = "O campo nome é obrigatório")
     private String name;
+    
     private String description;
+    
     @Positive(message = "O preço deve ser um valor Positivo")
     private Double price;
+    
     private String imgUrl;
-    @PastOrPresent(message = "A data não pode ser anterior a atual")
+    
+    @PastOrPresent(message = "A data não pode ser posterior a atual")
     private Instant date;
+    
     private List<CategoryDTO> categories = new ArrayList<>();
 
     public ProductDTO(Product entity) {
