@@ -1,8 +1,6 @@
 package br.com.topsystem.dscatalog.dtos.user;
 
-import lombok.Getter;
-import lombok.Setter;
+import br.com.topsystem.dscatalog.services.validation.UserUpdateValid;
 
-@Getter
-@Setter
+@UserUpdateValid
 public class UserUpdateDTO extends UserDTO {}
