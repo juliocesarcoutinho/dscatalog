@@ -22,18 +22,26 @@ public class ProductResource {
         this.service = service;
     }
 
-    @GetMapping
-    public ResponseEntity<Page<ProductDTO>> findAll(Pageable pageable) {
-        Page<ProductDTO> list = service.findAllPaged(pageable);
-        return ResponseEntity.ok().body(list);
-    }
+//    @GetMapping
+//    public ResponseEntity<Page<ProductDTO>> findAll(Pageable pageable) {
+//        Page<ProductDTO> list = service.findAllPaged(pageable);
+//        return ResponseEntity.ok().body(list);
+//    }
 
     // metodo personalizado para buscar produtos
+//    @GetMapping
+//    public ResponseEntity<Page<ProductProjection>> findAll(@RequestParam(value = "name", defaultValue = "") String name,
+//                                                          @RequestParam(value = "categoryId", defaultValue = "0") String categoryId,
+//                                                          Pageable pageable) {
+//        Page<ProductProjection> list = service.findAllPaged(name, categoryId, pageable);
+//        return ResponseEntity.ok().body(list);
+//    }
+    // metodo personalizado para buscar produtos com categorias
     @GetMapping
-    public ResponseEntity<Page<ProductProjection>> finAll(@RequestParam(value = "name", defaultValue = "") String name,
+    public ResponseEntity<Page<ProductDTO>> findAll(@RequestParam(value = "name", defaultValue = "") String name,
                                                           @RequestParam(value = "categoryId", defaultValue = "0") String categoryId,
                                                           Pageable pageable) {
-        Page<ProductProjection> list = service.findAllPaged(name, categoryId, pageable);
+        Page<ProductDTO> list = service.findAllPagedWithCategories(name, categoryId, pageable);
         return ResponseEntity.ok().body(list);
     }
 
