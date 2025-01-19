@@ -2,6 +2,7 @@ package br.com.topsystem.dscatalog.resources;
 
 
 import br.com.topsystem.dscatalog.dtos.ProductDTO;
+import br.com.topsystem.dscatalog.projections.ProductProjection;
 import br.com.topsystem.dscatalog.services.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -24,6 +25,15 @@ public class ProductResource {
     @GetMapping
     public ResponseEntity<Page<ProductDTO>> findAll(Pageable pageable) {
         Page<ProductDTO> list = service.findAllPaged(pageable);
+        return ResponseEntity.ok().body(list);
+    }
+
+    // metodo personalizado para buscar produtos
+    @GetMapping
+    public ResponseEntity<Page<ProductProjection>> finAll(@RequestParam(value = "name", defaultValue = "") String name,
+                                                          @RequestParam(value = "categoryId", defaultValue = "0") String categoryId,
+                                                          Pageable pageable) {
+        Page<ProductProjection> list = service.findAllPaged(name, categoryId, pageable);
         return ResponseEntity.ok().body(list);
     }
 

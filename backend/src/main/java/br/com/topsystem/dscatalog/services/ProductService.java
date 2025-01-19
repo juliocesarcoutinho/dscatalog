@@ -3,6 +3,7 @@ package br.com.topsystem.dscatalog.services;
 import br.com.topsystem.dscatalog.dtos.CategoryDTO;
 import br.com.topsystem.dscatalog.dtos.ProductDTO;
 import br.com.topsystem.dscatalog.entities.Product;
+import br.com.topsystem.dscatalog.projections.ProductProjection;
 import br.com.topsystem.dscatalog.repositories.CategoryRepository;
 import br.com.topsystem.dscatalog.repositories.ProductRepository;
 import br.com.topsystem.dscatalog.services.exceptions.DatabaseException;
@@ -14,6 +15,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -32,6 +35,15 @@ public class ProductService {
     public Page<ProductDTO> findAllPaged(Pageable pageable) {
         Page<Product> list = repository.findAll(pageable);
         return list.map(ProductDTO::new);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<ProductProjection> findAllPaged(String name, String categoryId, Pageable pageable) {
+        List<Long> categoryIds = List.of();
+        if (!"0".equals(categoryId)) {
+            categoryIds = Arrays.stream(categoryId.split(",")).map(Long::parseLong).toList();
+        }
+        return repository.searchProducts(categoryIds, name, pageable);
     }
 
     @Transactional(readOnly = true)
