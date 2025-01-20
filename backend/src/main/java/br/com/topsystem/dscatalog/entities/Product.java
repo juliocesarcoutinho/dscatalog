@@ -1,5 +1,6 @@
 package br.com.topsystem.dscatalog.entities;
 
+import br.com.topsystem.dscatalog.projections.IdProjection;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,7 +16,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Table(name = "tb_product")
 @EqualsAndHashCode(of = "id")
-public class Product {
+public class Product implements IdProjection<Long> {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,4 +43,9 @@ public class Product {
             joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Set<Category> categories = new HashSet<>();
+
+    @Override
+    public Long getId() {
+        return id;
+    }
 }

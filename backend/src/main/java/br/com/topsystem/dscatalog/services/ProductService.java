@@ -8,6 +8,7 @@ import br.com.topsystem.dscatalog.repositories.CategoryRepository;
 import br.com.topsystem.dscatalog.repositories.ProductRepository;
 import br.com.topsystem.dscatalog.services.exceptions.DatabaseException;
 import br.com.topsystem.dscatalog.services.exceptions.ResourceNotFoundExceptions;
+import br.com.topsystem.dscatalog.util.Utils;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -49,15 +50,20 @@ public class ProductService {
 //    }
 
     // Products with categories
+    @SuppressWarnings("unchecked")
     @Transactional(readOnly = true)
     public Page<ProductDTO> findAllPagedWithCategories(String name, String categoryId, Pageable pageable) {
         List<Long> categoryIds = List.of();
         if (!"0".equals(categoryId)) {
             categoryIds = Arrays.stream(categoryId.split(",")).map(Long::parseLong).toList();
         }
-        Page<ProductProjection> page = repository.searchProducts(categoryIds, name, pageable);
+        Page<ProductProjection> page = repository.searchProducts(categoryIds, name.trim(), pageable);
         List<Long> productIds = page.map(ProductProjection::getId).toList();
         List<Product> entities = repository.searchProductsWithCategories(productIds);
+
+
+        entities = (List<Product>) Utils.replace(page.getContent(), entities);
+
         List<ProductDTO> dtos = entities.stream().map(x -> new ProductDTO(x, x.getCategories())).toList();
 
         return new PageImpl<>(dtos, page.getPageable(), page.getTotalElements());
