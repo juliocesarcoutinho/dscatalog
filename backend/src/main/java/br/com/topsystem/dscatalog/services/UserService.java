@@ -62,6 +62,20 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
+    public UserDTO insertUser(UserInsertDTO dto) {
+        var entity = new User();
+        copyDtoToEntity(dto, entity);
+
+        entity.getRoles().clear();
+        var role = roleRepository.findByAuthority("ROLE_OPERATOR");
+        entity.getRoles().add(role);
+
+        entity.setPassword(passwordEncoder.encode(dto.getPassword()));
+        entity = repository.save(entity);
+        return new UserDTO(entity);
+    }
+
+    @Transactional
     public UserDTO update(Long id, UserUpdateDTO dto) {
         try {
             var entity = repository.getReferenceById(id);

@@ -37,11 +37,20 @@ public class UserResource {
     }
     @PostMapping
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    public ResponseEntity<UserDTO> insert(@RequestBody @Valid UserInsertDTO dto) {
+    public ResponseEntity<UserDTO> insertAdm(@RequestBody @Valid UserInsertDTO dto) {
         var newDto = service.insert(dto);        
         var uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(newDto.getId()).toUri();
         
+        return ResponseEntity.created(uri).body(newDto);
+    }
+
+    @PostMapping(value = "/signup")
+    public ResponseEntity<UserDTO> insertUser(@RequestBody @Valid UserInsertDTO dto) {
+        var newDto = service.insertUser(dto);
+        var uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                .buildAndExpand(newDto.getId()).toUri();
+
         return ResponseEntity.created(uri).body(newDto);
     }
     
