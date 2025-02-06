@@ -1,6 +1,8 @@
 package br.com.topsystem.dscatalog.resources.exceptions;
 
+import br.com.topsystem.dscatalog.dtos.email.CustomErrorDTO;
 import br.com.topsystem.dscatalog.services.exceptions.DatabaseException;
+import br.com.topsystem.dscatalog.services.exceptions.EmailException;
 import br.com.topsystem.dscatalog.services.exceptions.ResourceNotFoundExceptions;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -53,6 +55,13 @@ public class ResourceExceptionHandler {
             err.addError(f.getField(), f.getDefaultMessage());
         }
         
+        return ResponseEntity.status(status).body(err);
+    }
+
+    @ExceptionHandler(EmailException.class)
+    public ResponseEntity<CustomErrorDTO> email(EmailException e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        CustomErrorDTO err = new CustomErrorDTO(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
         return ResponseEntity.status(status).body(err);
     }
 }
