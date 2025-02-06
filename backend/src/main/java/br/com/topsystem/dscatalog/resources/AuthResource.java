@@ -1,6 +1,7 @@
 package br.com.topsystem.dscatalog.resources;
 
 import br.com.topsystem.dscatalog.dtos.email.EmailDTO;
+import br.com.topsystem.dscatalog.dtos.email.NewPasswordDTO;
 import br.com.topsystem.dscatalog.dtos.user.UserDTO;
 import br.com.topsystem.dscatalog.dtos.user.UserInsertDTO;
 import br.com.topsystem.dscatalog.dtos.user.UserUpdateDTO;
@@ -27,6 +28,12 @@ public class AuthResource {
     @PostMapping(value = "/recover-token")
     public ResponseEntity<Void> createRecoveryToken(@Valid @RequestBody EmailDTO body) {
         service.createRecoveryToken(body);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping(value = "/new-password")
+    public ResponseEntity<Void> saveNewPassword(@Valid @RequestBody NewPasswordDTO body) {
+        service.saveNewPassword(body);
         return ResponseEntity.noContent().build();
     }
 }
