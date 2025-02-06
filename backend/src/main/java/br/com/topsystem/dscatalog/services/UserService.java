@@ -32,11 +32,16 @@ public class UserService implements UserDetailsService {
     private final UserRepository repository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
+    private final AuthService authService;
 
-    public UserService(UserRepository repository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository repository,
+                       RoleRepository roleRepository,
+                       PasswordEncoder passwordEncoder,
+                       AuthService authService) {
         this.repository = repository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
+        this.authService = authService;
     }
 
     @Transactional(readOnly = true)
@@ -49,6 +54,12 @@ public class UserService implements UserDetailsService {
     public UserDTO findById(Long id) {
         Optional<User> obj = repository.findById(id);
         User entity = obj.orElseThrow(() -> new ResourceNotFoundExceptions("Entity not found"));
+        return new UserDTO(entity);
+    }
+
+    @Transactional(readOnly = true)
+    public UserDTO findMe() {
+        var entity = authService.authenticated();
         return new UserDTO(entity);
     }
 
