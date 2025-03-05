@@ -1,7 +1,6 @@
 .home-container {
     padding: 10px;
     font-size: 20px;
-    border: 1px solid red;
     text-align: center;
 }
 
@@ -9,9 +8,8 @@
     display: flex;
     flex-direction: column-reverse;
     background-color: #FFFFFF;
-    box-shadow: 0 4px 20px  rgba(0, 0, 0, 0.25) ;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
     border-radius: 20px;
-    border: 1px solid orange;
 }
 
 .home-content-container {
@@ -19,9 +17,9 @@
     flex-direction: column;
     align-items: center;
     padding: 10px 10px 60px 10px;
-    border: 1px solid blue;
 
 }
+
 .home-content-container h1 {
     width: 260px;
     font-size: 1em;
@@ -37,10 +35,104 @@
 
 .home-image-container {
     padding: 50px 15px;
-    border: 1px solid purple;
 }
 
 .home-image-container svg {
     width: 100%;
     height: auto;
+}
+
+@media (min-width: 576px) {
+    .home-container {
+        padding: 15px;
+        font-size: 40px;
+    }
+
+    .home-content-container h1 {
+        width: 506px;
+        margin-bottom: 20px;
+    }
+
+    .home-content-container p {
+        width: 506px;
+        margin-bottom: 20px;
+    }
+
+    .home-content-container button {
+        width: 506px;
+    }
+
+    .home-image-container svg {
+        width: 506px;
+    }
+}
+
+@media (min-width: 768px) {
+    .home-image-container {
+        padding: 100px 15px;
+    }
+
+    .home-content-container {
+        padding: 20px 20px 100px 20px;
+    }
+}
+
+@media (min-width: 992px) {
+    .home-image-container {
+        padding: 125px 15px;
+    }
+
+    .home-content-container {
+        padding: 20px 20px 150px 20px;
+    }
+
+    .home-content-container h1 {
+        margin-bottom: 26px;
+        width: 700px;
+    }
+
+    .home-content-container p {
+        margin-bottom: 47px;
+        width: 700px;
+    }
+
+    .home-container {
+        font-size: 55px;
+        padding: 40px;
+    }
+}
+@media (min-width: 1200px) {
+    .home-card {
+        flex-direction: row;
+        justify-content: space-around;
+        padding: calc(((85vh - 480px) / 2) - 20px) 0;
+    }
+
+    .home-content-container {
+        height: 480px;
+        width: 700px;
+        padding: 20px;
+        text-align: left;
+        align-content: space-between;
+        flex-flow: wrap;
+        align-items: flex-start;
+        flex-direction: column;
+
+    }
+
+    .home-image-container svg {
+        width: 100%;
+    }
+
+    .home-image-container {
+        display: flex;
+        align-items: center;
+        padding: 20px;
+    }
+}
+
+@media (min-width: 1400px) {
+    .home-image-container {
+        width: 480px;
+    }
 }
